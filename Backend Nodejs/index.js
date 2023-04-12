@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const db = require("./src/utils/database/db");
 const taskRoutes = require("./src/api/taskManager/tasks.routes");
 const userRoutes = require("./src/api/users/users.routes");

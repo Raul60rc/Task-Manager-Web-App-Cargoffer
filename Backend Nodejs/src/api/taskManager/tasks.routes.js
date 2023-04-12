@@ -67,8 +67,8 @@ router.post("/edit", async (req,res)=>{
         }
 
         const data = {
-            task : req.body.trade,
-            dateAssigned : req.body.trade,
+            task : req.body.task,
+            dateAssigned : req.body.dateAssigned,
             deadline : req.body.deadline,
         };
 
@@ -144,3 +144,4 @@ router.get("/getbyid/:id", async (req, res) => { //
     }
   });
   
+  module.exports = router;

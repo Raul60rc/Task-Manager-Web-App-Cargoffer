@@ -14,44 +14,39 @@ router.get("/getbytask/:task", async (req,res) =>{
     }
 });
 
-router.get("/getidbyuser/:user", async (req,res) => {
+router.get("/getidbyemail/:email", async (req,res) => {
     try{
-        const user = req.params.user;
-        const userToFind = await Task.findOne({user : id});
+        const email = req.params.user;
+        const userToFind = await Task.findOne({user : email});
         return res.status(200).json(userToFind);
     }catch (error){
         return next (error);
     }
 });
 
-router.post("/create", async (req,res)=> {
-    try{
-        const authorization = req.headers.authorization || "";
-        
-        if(!authorization || authorization === ""){
-            return res.status(401).json("Unauthorized");
-        }
-
-        const verify = verifyJwt (authorization.replace("Bearer", ""));
-
-        if(!verify){
-            return res.status(401).json("Unauthorized");
-        }
-
-        const data ={
-            task: req.body.task,
-            dateAssigned: req.body.dateAssigned,
-            deadline: req.body.deadline,
-        };
-
-        const item = await Task.findOneAndUpdate({_id: req.body.id}, data,{
-            new:true,
-        });
-        return res.status(200).json(item);
-    }catch (error) {
-        return res.status(500).json(error);
+router.post("/create", async (req, res) => {
+    try {
+      const authorization = req.headers.authorization || "";
+  
+      if (!authorization || authorization === "") {
+        return res.status(401).json("Unauthorized");
+      }
+  
+      const verify = verifyJwt(authorization.replace("Bearer ", ""));
+  
+      if (!verify) {
+        return res.status(401).json("Unauthorized");
+      }
+  
+      const newData = new Task(req.body);
+      const submited = await newData.save();
+      return res.status(200).json(submited);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json("Failed to submit");
     }
-});
+  });
+  
 
 router.post("/edit", async (req,res)=>{
     try{

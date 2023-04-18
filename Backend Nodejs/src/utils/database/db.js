@@ -3,12 +3,18 @@ const mongo = require ("mongodb");
 
 //add mongo atlas route below this code 
 
-const MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/mydb";
+const DB_URL = process.env.DB_URL;
+console.log(DB_URL); // check if working now --> now working. 
+const connectDB = async () =>{
+    try{
+        const db = await mongoose.connect(DB_URL);
+        const { name, host } = db.connection;
+    console.log(`connected to : ${name} in ${host}`);
+        
 
-MongoClient.connect(url,function(err,db){
-    if(err) throw err;
-    console.log("Database created");
-    db.close();
-});
+    }catch (error){
+        console.log("unable to connect with database",error);
+    }
+}
 
+module.exports = {connectDB};

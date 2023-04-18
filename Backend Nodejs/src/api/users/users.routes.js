@@ -2,8 +2,8 @@ const express = require("express");
 const User = require("./users.model");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { generateSign } = require(".jwt");
-const { verifyJwt } = require(".jwt");
+const { generateSign } = require("../../utils/jwt/jwt");
+const { verifyJwt } = require("../../utils/jwt/jwt");
 
 router.post("/create", async (req,res)=>{
     try{
